@@ -1,0 +1,295 @@
+---
+title: "Are Songs Getting faster? A study of top songs over the last 24 years"
+author: "Tim Stephens"
+date: "01/02/2021"
+output: html_document
+---
+#Background
+
+This short investigation hopes to determine if top songs are getting faster. Top songs from 1996-2020 (the years I have been alive) were analyzed to determine if there is a trend with higher tempo songs gaining more traction. Top songs were taken from the "Billboard Magazine's Top Hot 100" from each year. It was found that there was no relationship between tempo of songs and time - successful songs vary in tempo year-to-year. 
+
+```{r, echo = FALSE, message = FALSE}
+
+###Workspace Set-up###
+
+library(devtools)
+library(here)
+library(usethis)
+library(spotifyr)
+library(tidyverse)
+
+#add your spotify clientID, secret
+usethis::edit_r_environ() 
+
+#function to pull trackname, valence, tempo, and album release year from the dataset. 
+get_artist_trackName_valence_tempo_year <- 
+  function(artist, track){
+    artist %>% 
+    select(artist_name, track_name, valence, tempo, album_release_year) %>% 
+    filter(track_name == track) %>% 
+    filter(row_number() == 1)
+  }
+
+
+#all years were analyzed the same. Just 1996 is commented. 
+
+#1996
+#get the features from the top artist of that year: 
+top_1996_los_del_rio <- get_artist_audio_features('los_del_rio')
+
+#save the information in a local directory:
+saveRDS(top_1996_los_del_rio, here("MusicData_noPush/los_del_rio.rds"))
+
+#load in from local: 
+los_del_rio <- readRDS(here("MusicData_noPush/los_del_rio.rds"))
+
+#call the function, get the necessary info from the dataset
+top_1996 <- get_artist_trackName_valence_tempo_year(los_del_rio, "Macarena")
+
+#show the results
+top_1996
+
+
+
+#1997
+top_1997_elton_john <- get_artist_audio_features('elton_john')
+saveRDS(top_1997_elton_john, here("MusicData_noPush/elton_john.rds"))
+elton <- readRDS(here("MusicData_noPush/elton_john.rds"))
+top_1997 <- get_artist_trackName_valence_tempo_year(elton, "Candle In The Wind")
+top_1997
+
+
+#1998
+top_1998_next <- get_artist_audio_features('next')
+saveRDS(top_1998_next, here("MusicData_noPush/next.rds"))
+next_the_artist <- readRDS(here("MusicData_noPush/next.rds"))
+top_1998 <- get_artist_trackName_valence_tempo_year(next_the_artist, "Too Close")
+top_1998
+
+
+#1999
+top_1999_cher <- get_artist_audio_features('cher')
+saveRDS(top_1999_cher, here("MusicData_noPush/cher.rds"))
+cher <- readRDS(here("MusicData_noPush/cher.rds"))
+top_1999 <- get_artist_trackName_valence_tempo_year(cher, "Believe")
+top_1999
+
+#2000
+top_2000_faith_hill <- get_artist_audio_features('faith_hill')
+saveRDS(top_2000_faith_hill, here("MusicData_noPush/faith_hill.rds"))
+faith_hill <- readRDS(here("MusicData_noPush/faith_hill.rds"))
+top_2000 <- get_artist_trackName_valence_tempo_year(faith_hill, "Breathe")
+top_2000
+
+#2001
+top_2001_lifehouse <- get_artist_audio_features("lifehouse")
+saveRDS(top_2001_lifehouse, here("MusicData_noPush/lifehouse.rds"))
+lifehouse <- readRDS(here("MusicData_noPush/lifehouse.rds"))
+top_2001 <- get_artist_trackName_valence_tempo_year(lifehouse, "Hanging By A Moment")
+top_2001
+
+#2002
+top_2002_nickelback <- get_artist_audio_features("nickelback")
+saveRDS(top_2002_nickelback, here("MusicData_noPush/nickelback.rds"))
+nickelback <- readRDS(here("MusicData_noPush/nickelback.rds"))
+top_2002 <- get_artist_trackName_valence_tempo_year(nickelback, "How You Remind Me")
+top_2002
+
+#2003
+top_2003_50c <- get_artist_audio_features("50_cent")
+saveRDS(top_2003_50c, here("MusicData_noPush/fiddy.rds"))
+fiddy <- readRDS(here("MusicData_noPush/fiddy.rds"))
+top_2003 <- get_artist_trackName_valence_tempo_year(fiddy, "In Da Club")
+top_2003
+
+# #2004 - Oddly, Usher's masterpiece: Yeah! Ft. lil Jon and Ludacris, is not in the dataset.
+# top_2004_usher <- get_artist_audio_features("Usher")
+# saveRDS(top_2004_usher, here("usher.rds"))
+# usher <- readRDS(here("usher.rds"))
+# top_2004 <- get_artist_trackName_valence_tempo(usher, "Yeah! feat. Lil Jon & Ludacris")
+# top_2004
+
+#2005
+top_2005_mariah <- get_artist_audio_features("mariah_carey")
+saveRDS(top_2005_mariah, here("MusicData_noPush/mariah.rds"))
+mariah <- readRDS(here("MusicData_noPush/mariah.rds"))
+top_2005 <- get_artist_trackName_valence_tempo_year(mariah, "We Belong Together")
+top_2005
+
+
+#2006
+top_2006_daniel <- get_artist_audio_features("daniel powter")
+saveRDS(top_2006_daniel, here("MusicData_noPush/daniel.rds"))
+daniel <- readRDS(here("MusicData_noPush/daniel.rds"))
+top_2006 <- get_artist_trackName_valence_tempo_year(daniel, "Bad Day")
+top_2006
+
+
+#2007
+top_2007_bey <- get_artist_audio_features("Beyoncé")
+saveRDS(top_2007_bey, here("MusicData_noPush/Beyoncé.rds"))
+beyonce <- readRDS(here("MusicData_noPush/Beyoncé.rds"))
+top_2007 <- get_artist_trackName_valence_tempo_year(beyonce, "Irreplaceable")
+top_2007
+
+
+#2008 
+top_2008_flo <- get_artist_audio_features("flo-rida")
+saveRDS(top_2008_flo, here("MusicData_noPush/flo.rds"))
+flo <- readRDS(here("MusicData_noPush/flo.rds"))
+top_2008 <- get_artist_trackName_valence_tempo_year(flo, "Low (feat. T-Pain)")
+top_2008 
+
+#2009
+top_2009_peas <- get_artist_audio_features("black eyed peas")
+saveRDS(top_2009_peas, here("MusicData_noPush/peas.rds"))
+peas <- readRDS(here("MusicData_noPush/peas.rds"))
+top_2009 <- get_artist_trackName_valence_tempo_year(peas, "Boom Boom Pow")
+top_2009 
+
+
+#2010 - No tik tok either!
+top_2010_kesha <- get_artist_audio_features("ke$ha")
+saveRDS(top_2010_kesha, here("MusicData_noPush/kesha.rds"))
+kesha <- readRDS(here("MusicData_noPush/kesha.rds"))
+top_2010 <- get_artist_trackName_valence_tempo_year(kesha, "Tik Tok")
+top_2010 
+
+#2011
+top_2011_adele <- get_artist_audio_features("adele")
+saveRDS(top_2011_adele, here("MusicData_noPush/adele.rds"))
+adele <- readRDS(here("MusicData_noPush/adele.rds"))
+top_2011 <- get_artist_trackName_valence_tempo_year(adele, "Rolling in the Deep")
+top_2011
+
+#2012
+top_2012_gotye <- get_artist_audio_features("Gotye")
+saveRDS(top_2012_gotye, here("MusicData_noPush/gotye.rds"))
+gotye <- readRDS(here("MusicData_noPush/gotye.rds"))
+top_2012 <- get_artist_trackName_valence_tempo_year(gotye, "Somebody That I Used To Know")
+top_2012
+
+
+#2013
+top_2013_mack <- get_artist_audio_features("macklemore")
+saveRDS(top_2013_mack, here("MusicData_noPush/mack.rds"))
+mack <- readRDS(here("MusicData_noPush/mack.rds"))
+top_2013 <- get_artist_trackName_valence_tempo_year(mack, "Thrift Shop (feat. Wanz)")
+top_2013
+
+#2014
+top_2014_pharrell <- get_artist_audio_features("Pharrell")
+saveRDS(top_2014_pharrell, here("MusicData_noPush/ph.rds"))
+ph <- readRDS(here("MusicData_noPush/ph.rds"))
+top_2014 <- get_artist_trackName_valence_tempo_year(ph, 'Happy - From "Despicable Me 2"')
+top_2014
+
+
+#2015
+top_2015_mark <- get_artist_audio_features("Mark Ronson")
+saveRDS(top_2015_mark, here("MusicData_noPush/mark.rds"))
+mark <- readRDS(here("MusicData_noPush/mark.rds"))
+top_2015 <- get_artist_trackName_valence_tempo_year(mark, "Uptown Funk (feat. Bruno Mars)")
+top_2015
+
+
+#2016 no Love Yourself either
+top_2016_bieber <- get_artist_audio_features("Justin Bieber")
+saveRDS(top_2016_bieber, here("MusicData_noPush/biebs.rds"))
+biebs <- readRDS(here("MusicData_noPush/biebs.rds"))
+top_2016 <- get_artist_trackName_valence_tempo_year(biebs, "Love Yourself")
+top_2016
+
+#2017 - No sheeran...weird 
+top_2017_sheeran <- get_artist_audio_features("Ed Sheeran")
+saveRDS(top_2017_sheeran, here("MusicData_noPush/sheeran.rds"))
+sheeran <- readRDS(here("MusicData_noPush/sheeran.rds"))
+top_2017 <- get_artist_trackName_valence_tempo_year(sheeran, "Shape of You")
+top_2017
+
+#2018
+top_2018_Drake <- get_artist_audio_features("Drake")
+saveRDS(top_2018_Drake, here("MusicData_noPush/drake.rds"))
+drake <- readRDS(here("MusicData_noPush/drake.rds"))
+top_2018 <- get_artist_trackName_valence_tempo_year(drake, "God's Plan")
+top_2018
+
+#2019 #couldnt find it (old town Road)
+#top_2019_nas <- get_artist_audio_features("lil nas x")
+
+
+
+#2020
+top_2020_weeknd <- get_artist_audio_features("The Weeknd")
+saveRDS(top_2020_weeknd, here("MusicData_noPush/weeknd.rds"))
+weeknd <- readRDS(here("MusicData_noPush/weeknd.rds"))
+top_2020 <- get_artist_trackName_valence_tempo_year(weeknd, "Blinding Lights")
+top_2020
+
+```
+
+```{r, echo = FALSE, message = FALSE}
+
+#combine all individual tables into one large table using rbind
+
+raw_data <- 
+  rbind(top_1996, 
+        top_1997, 
+        top_1998, 
+        top_1999, 
+        top_2000, 
+        top_2001, 
+        top_2002,
+        top_2003,
+        #top_2004,
+        top_2005,
+        top_2006,
+        top_2007,
+        top_2008,
+        top_2009,
+        #top_2010,
+        top_2011,
+        top_2012,
+        top_2013,
+        top_2014,
+        top_2015,
+        #top_2016,
+        #top_2017,
+        top_2018,
+        #top_2019,
+        top_2020
+        )
+
+
+```
+
+```{r, echo = FALSE}
+#convert table to tibble with better names
+music_data <- 
+  tibble(artist = raw_data$artist_name,
+         song = raw_data$track_name,
+         valence = raw_data$valence,
+         temp = raw_data$tempo,
+         year = raw_data$album_release_year)
+  
+#create a scatter plot to compare tempo over time
+music_chart_tempo <-
+  music_data %>% 
+  ggplot(mapping = aes(x = year, y = temp))+
+  geom_point(colour = "darkgreen") + #green b/c spotify
+  theme_minimal() + 
+  labs(x = "Year",
+       y = "Tempo (beats-per-minute)",
+       title = "There is No Clear Relationship Between Time and Tempo of Top Songs",
+       subtitle = "Songs are from the past 24 years",
+       caption = "Data from Spotify")
+
+music_chart_tempo
+
+#save the file
+ggsave(here("outputs/Tempo_Vs_Time.pdf"), width = 40, height = 20, units = "cm")
+
+```
+
+
+
