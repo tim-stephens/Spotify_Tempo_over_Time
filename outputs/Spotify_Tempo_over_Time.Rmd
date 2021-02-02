@@ -6,7 +6,12 @@ output: html_document
 ---
 #Background
 
-This short investigation hopes to determine if top songs are getting faster. Top songs from 1996-2020 (the years I have been alive) were analyzed to determine if there is a trend with higher tempo songs gaining more traction. Top songs were taken from the "Billboard Magazine's Top Hot 100" from each year. It was found that there was no relationship between tempo of songs and time - successful songs vary in tempo year-to-year. 
+This short investigation hopes to determine if top songs are getting faster. 
+Top songs from 1996-2020 (the years I have been alive) were analyzed to 
+determine if there is a trend with higher tempo songs gaining more traction. 
+Top songs were taken from the "Billboard Magazine's Top Hot 100" from each year. 
+It was found that there was no relationship between tempo of songs and time - 
+successful songs vary in tempo year-to-year. 
 
 ```{r, echo = FALSE, message = FALSE}
 
